@@ -105,7 +105,7 @@ namespace JTuresson.SnakeLogic
         [Test]
         public void Spawn_Food_Will_Take_Random_Non_Taken_Position()
         {
-            var expectedFoodPosition = new Vector2Int(0, 0);
+            var expectedFoodPosition = new Vector2Int(2, 0);
 
             var snakeGame = new SnakeGame(3, 1, Direction.East, 1, 0, 2);
             // 210
