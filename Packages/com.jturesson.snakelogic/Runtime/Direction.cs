@@ -1,4 +1,4 @@
-﻿namespace JTuresson.SnakeLib
+﻿namespace JTuresson.SnakeLogic
 {
     public enum Direction
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace JTuresson.SnakeLib.Tests.Runtime
+namespace JTuresson.SnakeLogic
 {
     [TestFixture]
     public class SnakeGameTests
@@ -15,7 +15,7 @@ namespace JTuresson.SnakeLib.Tests.Runtime
             const int startX = 3;
             const int startY = 3;
             const int startLength = 3;
-            var expectedSnake = new List<Vector2Int>()
+            var expectedSnakeBody = new List<Vector2Int>
             {
                 new(3, 3),
                 new(2, 3),
@@ -25,18 +25,18 @@ namespace JTuresson.SnakeLib.Tests.Runtime
 
             Assert.AreEqual(width, snakeGame.Width);
             Assert.AreEqual(height, snakeGame.Height);
-            Assert.AreEqual(startDirection, snakeGame.SnakeHeadDirection);
-            Assert.AreEqual(startX, snakeGame.SnakeHeadPositionX);
-            Assert.AreEqual(startY, snakeGame.SnakeHeadPositionY);
-            Assert.AreEqual(startLength, snakeGame.SnakeLength);
+            Assert.AreEqual(startDirection, snakeGame.Snake.HeadDirection);
+            Assert.AreEqual(startX, snakeGame.Snake.HeadPosition.X);
+            Assert.AreEqual(startY, snakeGame.Snake.HeadPosition.Y);
+            Assert.AreEqual(startLength, snakeGame.Snake.Body.Count);
 
-            CollectionAssert.AreEqual(expectedSnake, snakeGame.Snake);
+            CollectionAssert.AreEqual(expectedSnakeBody, snakeGame.Snake.Body);
         }
 
         [Test]
         public void SnakeCanMove()
         {
-            var expectedSnake = new List<Vector2Int>()
+            var expectedSnakeBody = new List<Vector2Int>
             {
                 new(0, 0),
                 new(1, 0),
@@ -53,17 +53,17 @@ namespace JTuresson.SnakeLib.Tests.Runtime
             snakeGame.Update(Direction.North);
             snakeGame.Update(Direction.West);
 
-            CollectionAssert.AreEqual(expectedSnake, snakeGame.Snake);
+            CollectionAssert.AreEqual(expectedSnakeBody, snakeGame.Snake.Body);
         }
 
         [Test]
         public void SnakeCanMoveThroughWalls()
         {
-            var expectedSnake = new List<Vector2Int>()
+            var expectedSnakeBody = new List<Vector2Int>
             {
                 new(2, 0),
                 new(0, 0),
-                new(0, 2),
+                new(0, 2)
             };
 
             var snakeGame = new SnakeGame(3, 3, Direction.East, 2, 0, 3);
@@ -86,7 +86,7 @@ namespace JTuresson.SnakeLib.Tests.Runtime
             // 201
             // OOO
             // 3O0
-            CollectionAssert.AreEqual(expectedSnake, snakeGame.Snake);
+            CollectionAssert.AreEqual(expectedSnakeBody, snakeGame.Snake.Body);
         }
 
         [Test]
@@ -105,11 +105,12 @@ namespace JTuresson.SnakeLib.Tests.Runtime
         [Test]
         public void Spawn_Food_Will_Take_Random_Non_Taken_Position()
         {
-            var expectedFoodPosition = new Vector2Int(2, 0);
+            var expectedFoodPosition = new Vector2Int(0, 0);
 
             var snakeGame = new SnakeGame(3, 1, Direction.East, 1, 0, 2);
+            // 210
             snakeGame.SpawnFood();
-
+            // 21X
             Assert.AreEqual(expectedFoodPosition, snakeGame.Food.Position);
         }
 
@@ -118,9 +119,30 @@ namespace JTuresson.SnakeLib.Tests.Runtime
         {
             var snakeGame = new SnakeGame(3, 1, Direction.East, 2, 0, 3);
             snakeGame.SpawnFood();
-            snakeGame.Update(Direction.None);
 
             Assert.IsTrue(snakeGame.IsGameOver);
+        }
+
+        [Test]
+        public void Snake_Grow_When_Eat_Food_And_Gets_Score()
+        {
+            const int expectedLength = 3;
+            var snakeGame = new SnakeGame(3, 3, Direction.East, 2, 0, 2);
+            //210
+            //000
+            //000
+            var score = snakeGame.Score;
+            var path = new[] { Direction.None, Direction.South, Direction.East };
+            var i = 0;
+            snakeGame.SpawnFood();
+            while (score == snakeGame.Score)
+            {
+                snakeGame.Update(path[i]);
+                i++;
+                i %= path.Length;
+            }
+
+            Assert.AreEqual(expectedLength, snakeGame.Snake.Length);
         }
     }
 }

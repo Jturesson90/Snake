@@ -1,6 +1,6 @@
 {
-    "name": "JTuresson.SnakeLib",
-    "rootNamespace": "JTuresson.SnakeLib",
+    "name": "JTuresson.SnakeLogic",
+    "rootNamespace": "JTuresson.SnakeLogic",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

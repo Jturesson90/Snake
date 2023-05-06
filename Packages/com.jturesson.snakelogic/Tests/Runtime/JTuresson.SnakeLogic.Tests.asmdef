@@ -1,10 +1,10 @@
 {
-    "name": "JTuresson.SnakeLib.Tests",
-    "rootNamespace": "JTuresson.SnakeLib",
+    "name": "JTuresson.SnakeLogic.Tests",
+    "rootNamespace": "JTuresson.SnakeLogic",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "JTuresson.SnakeLib"
+        "JTuresson.SnakeLogic"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

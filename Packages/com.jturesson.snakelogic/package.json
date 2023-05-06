@@ -1,0 +1,11 @@
+{
+  "name": "com.jturesson.snakelogic",
+  "version": "0.1.0",
+  "displayName": "JTuresson Snake Logic",
+  "description": "Snake Game Logic",
+  "author": {
+    "email": "jturesson90@gmail.com",
+    "name": "Jesper Turesson",
+    "url": "https://www.linkedin.com/in/jesperturesson/"
+  }
+}

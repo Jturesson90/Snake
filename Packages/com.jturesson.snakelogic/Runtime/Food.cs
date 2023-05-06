@@ -1,12 +1,12 @@
-﻿namespace JTuresson.SnakeLib
+﻿namespace JTuresson.SnakeLogic
 {
     public class Food
     {
-        public Vector2Int Position { get; }
-
         public Food(Vector2Int pos)
         {
             Position = pos;
         }
+
+        public Vector2Int Position { get; }
     }
 }
