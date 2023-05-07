@@ -26,8 +26,22 @@ namespace JTuresson.SnakeLogic
         public void Update(Direction inputDirection)
         {
             if (IsGameOver) return;
-            var direction = inputDirection == Direction.None ? Snake.HeadDirection : inputDirection;
-            Snake.HeadDirection = direction;
+            switch (Snake.HeadDirection)
+            {
+                case Direction.East when inputDirection == Direction.West:
+                case Direction.West when inputDirection == Direction.East:
+                case Direction.North when inputDirection == Direction.South:
+                case Direction.South when inputDirection == Direction.North:
+                    break;
+                case Direction.None:
+                    throw new Exception("Snake can never have Direction.None");
+                default:
+                {
+                    Snake.HeadDirection = inputDirection == Direction.None ? Snake.HeadDirection : inputDirection;
+                    break;
+                }
+            }
+
 
             MoveBody();
             MoveHead();

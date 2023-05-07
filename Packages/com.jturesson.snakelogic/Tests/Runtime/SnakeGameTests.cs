@@ -135,14 +135,42 @@ namespace JTuresson.SnakeLogic
             var path = new[] { Direction.None, Direction.South, Direction.East };
             var i = 0;
             snakeGame.SpawnFood();
+            const int iMax = 100;
             while (score == snakeGame.Score)
             {
                 snakeGame.Update(path[i]);
                 i++;
                 i %= path.Length;
+                if (i > iMax) break;
             }
 
             Assert.AreEqual(expectedLength, snakeGame.Snake.Length);
+        }
+
+        [Test]
+        public void Snake_Can_Only_Go_Left_Right_Or_Forward()
+        {
+            var expectedSnakeBody = new List<Vector2Int>
+            {
+                new(0, 0),
+                new(0, 1)
+            };
+            var snakeGame = new SnakeGame(3, 3, Direction.East, 1, 0, 2);
+            /*
+             * 210  021 002 000 000 000 000 100
+             * 000  000 001 002 000 000 100 200
+             * 000  000 000 001 012 120 200 000 
+             */
+            var path = new[]
+            {
+                Direction.West, Direction.South, Direction.North, Direction.West, Direction.East, Direction.North,
+                Direction.South
+            };
+
+            foreach (var p in path) snakeGame.Update(p);
+
+            Assert.IsFalse(snakeGame.IsGameOver);
+            CollectionAssert.AreEqual(expectedSnakeBody, snakeGame.Snake.Body);
         }
     }
 }
