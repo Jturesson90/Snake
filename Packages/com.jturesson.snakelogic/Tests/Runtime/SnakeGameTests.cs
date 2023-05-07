@@ -7,7 +7,7 @@ namespace JTuresson.SnakeLogic
     public class SnakeGameTests
     {
         [Test]
-        public void CreateSimpleGame()
+        public void Create_Simple_Game()
         {
             const int width = 19;
             const int height = 10;
@@ -34,7 +34,7 @@ namespace JTuresson.SnakeLogic
         }
 
         [Test]
-        public void SnakeCanMove()
+        public void Snake_Can_Move()
         {
             var expectedSnakeBody = new List<Vector2Int>
             {
@@ -57,7 +57,7 @@ namespace JTuresson.SnakeLogic
         }
 
         [Test]
-        public void SnakeCanMoveThroughWalls()
+        public void Snake_Can_Move_Through_Walls()
         {
             var expectedSnakeBody = new List<Vector2Int>
             {
@@ -90,7 +90,7 @@ namespace JTuresson.SnakeLogic
         }
 
         [Test]
-        public void SnakeDiesWhenCollidesWithBody()
+        public void Snake_Dies_When_Colliding_With_Body()
         {
             var snakeGame = new SnakeGame(5, 5, Direction.East, 4, 0, 5);
 
@@ -171,6 +171,18 @@ namespace JTuresson.SnakeLogic
 
             Assert.IsFalse(snakeGame.IsGameOver);
             CollectionAssert.AreEqual(expectedSnakeBody, snakeGame.Snake.Body);
+        }
+
+        [Test]
+        public void Snake_Turned_Last_Update()
+        {
+            var snakeGame = new SnakeGame(3, 3, Direction.East, 1, 0, 2);
+            snakeGame.Update(Direction.None);
+            Assert.IsFalse(snakeGame.SnakeChangedDirection);
+            snakeGame.Update(Direction.East);
+            Assert.IsFalse(snakeGame.SnakeChangedDirection);
+            snakeGame.Update(Direction.South);
+            Assert.IsTrue(snakeGame.SnakeChangedDirection);
         }
     }
 }

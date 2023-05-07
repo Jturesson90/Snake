@@ -11,10 +11,13 @@ namespace Scripts
         [SerializeField] private SpriteRenderer wall;
         [SerializeField] private SpriteRenderer snakeHead;
         [SerializeField] private SpriteRenderer snakeBody;
-        [SerializeField] private SpriteRenderer food;
-        private SpriteRenderer _food;
 
+        [SerializeField] private GameObject food;
+
+        private GameObject _food;
         private GameManager _gameManager;
+
+        private Dictionary<string, Vector3> _gridPositions;
         private int _height;
         private List<SpriteRenderer> _snake;
         private int _width;
@@ -45,6 +48,8 @@ namespace Scripts
         {
             GameManager.GameSetupComplete -= GameControllerOnGameSetupComplete;
         }
+
+        public static event EventHandler<BoardCreatedEventArgs> BoardCreated;
 
         private void GameControllerOnGameSetupComplete(object sender, EventArgs e)
         {
@@ -81,8 +86,6 @@ namespace Scripts
             }
         }
 
-        private Dictionary<string, Vector3> _gridPositions;
-
         private void Setup(ISnakeData gameData)
         {
             foreach (Transform child in transform) Destroy(child.gameObject);
@@ -98,25 +101,39 @@ namespace Scripts
 
             var wallSr = Instantiate(wall, transform);
             wallSr.sortingOrder = -2;
-            wallSr.transform.localScale = new Vector3(gameData.Width + 2, gameData.Height + 2, 1);
+            wallSr.transform.localScale = new Vector3(gameData.Width + 0.2f, gameData.Height + 0.2f, 1);
 
             _snake = new List<SpriteRenderer>();
+
             var head = Instantiate(snakeHead, transform);
             _snake.Add(head);
             UpdateSnake(gameData.Snake);
+            BoardCreated?.Invoke(this, new BoardCreatedEventArgs { Viewport = wallSr.transform.localScale });
+        }
+
+        private SpriteRenderer InstantiateHead()
+        {
+            var head = new GameObject("SnakeHead")
+            {
+                transform =
+                {
+                    parent = transform
+                }
+            };
+            var spriteRenderer = head.AddComponent<SpriteRenderer>();
+
+            return spriteRenderer;
         }
 
         private static Dictionary<string, Vector3> UpdateGridPositions(int width, int height)
         {
             var gridPositions = new Dictionary<string, Vector3>();
             for (var y = 0; y < height; y++)
+            for (var x = 0; x < width; x++)
             {
-                for (var x = 0; x < width; x++)
-                {
-                    var xPos = -(width * 0.5f) + x + 0.5f;
-                    var yPos = height * 0.5f - y - 0.5f;
-                    gridPositions.Add($"{x}{y}", new Vector3(xPos, yPos, 0));
-                }
+                var xPos = -(width * 0.5f) + x + 0.5f;
+                var yPos = height * 0.5f - y - 0.5f;
+                gridPositions.Add($"{x}{y}", new Vector3(xPos, yPos, 0));
             }
 
             return gridPositions;
@@ -125,6 +142,11 @@ namespace Scripts
         private Vector3 GridPositionToBoard(int x, int y)
         {
             return _gridPositions[$"{x}{y}"];
+        }
+
+        public class BoardCreatedEventArgs : EventArgs
+        {
+            public Vector2 Viewport { get; set; }
         }
     }
 }

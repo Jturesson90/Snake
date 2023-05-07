@@ -15,6 +15,6 @@ MonoBehaviour:
   width: 19
   height: 10
   startPosition: {x: 7, y: 3}
-  startDirection: 1
+  startDirection: 2
   startSnakeLength: 3
   startSpeed: 10

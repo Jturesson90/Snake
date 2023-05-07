@@ -7,23 +7,21 @@ namespace Scripts.Input
 {
     public class GameInput : MonoBehaviour
     {
-        private PlayerInputActions _playerInputActions;
-
-        public event EventHandler<MovementEventArgs> OnMovement;
-
-        private MovementEventArgs _upArgs;
         private MovementEventArgs _downArgs;
         private MovementEventArgs _leftArgs;
+        private PlayerInputActions _playerInputActions;
         private MovementEventArgs _rightArgs;
+
+        private MovementEventArgs _upArgs;
 
         private void Awake()
         {
             _playerInputActions = new PlayerInputActions();
             _playerInputActions.Player.Enable();
-            _upArgs = new MovementEventArgs() { Direction = Direction.North };
-            _downArgs = new MovementEventArgs() { Direction = Direction.South };
-            _leftArgs = new MovementEventArgs() { Direction = Direction.West };
-            _rightArgs = new MovementEventArgs() { Direction = Direction.East };
+            _upArgs = new MovementEventArgs { Direction = Direction.North };
+            _downArgs = new MovementEventArgs { Direction = Direction.South };
+            _leftArgs = new MovementEventArgs { Direction = Direction.West };
+            _rightArgs = new MovementEventArgs { Direction = Direction.East };
         }
 
         private void OnEnable()
@@ -41,6 +39,8 @@ namespace Scripts.Input
             _playerInputActions.Player.Left.performed -= OnLeft;
             _playerInputActions.Player.Right.performed -= OnRight;
         }
+
+        public event EventHandler<MovementEventArgs> OnMovement;
 
         private void OnUp(InputAction.CallbackContext obj)
         {

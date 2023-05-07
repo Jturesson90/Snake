@@ -22,10 +22,12 @@ namespace JTuresson.SnakeLogic
         public int Width { get; }
         public int Height { get; }
         public int Score { get; private set; }
+        public bool SnakeChangedDirection { get; private set; }
 
         public void Update(Direction inputDirection)
         {
             if (IsGameOver) return;
+            SnakeChangedDirection = false;
             switch (Snake.HeadDirection)
             {
                 case Direction.East when inputDirection == Direction.West:
@@ -37,7 +39,12 @@ namespace JTuresson.SnakeLogic
                     throw new Exception("Snake can never have Direction.None");
                 default:
                 {
-                    Snake.HeadDirection = inputDirection == Direction.None ? Snake.HeadDirection : inputDirection;
+                    if (inputDirection != Direction.None && Snake.HeadDirection != inputDirection)
+                    {
+                        SnakeChangedDirection = true;
+                        Snake.HeadDirection = inputDirection;
+                    }
+
                     break;
                 }
             }
