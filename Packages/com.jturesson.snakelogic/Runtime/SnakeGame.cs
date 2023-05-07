@@ -4,11 +4,9 @@ using System.Linq;
 
 namespace JTuresson.SnakeLogic
 {
-    public class SnakeGame
+    public class SnakeGame : ISnakeData
     {
         private readonly Random _random;
-
-        public readonly Snake Snake;
 
         public SnakeGame(int width, int height, Direction currentDirection, int startX, int startY, int startLength)
         {
@@ -18,7 +16,7 @@ namespace JTuresson.SnakeLogic
             _random = new Random();
         }
 
-        //  public List<Vector2Int> Snake { get; }
+        public Snake Snake { get; }
         public Food Food { get; private set; }
         public bool IsGameOver { get; private set; }
         public int Width { get; }
