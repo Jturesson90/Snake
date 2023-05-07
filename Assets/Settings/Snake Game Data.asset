@@ -17,4 +17,4 @@ MonoBehaviour:
   startPosition: {x: 7, y: 3}
   startDirection: 2
   startSnakeLength: 3
-  startSpeed: 10
+  startSpeed: 8

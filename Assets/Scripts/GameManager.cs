@@ -60,6 +60,12 @@ namespace Scripts
             SetupGame();
         }
 
+        private void OnDestroy()
+        {
+            PlayerPrefs.SetInt(_highScoreKey, HighScore);
+            PlayerPrefs.Save();
+        }
+
         private void Update()
         {
             switch (GameState)
