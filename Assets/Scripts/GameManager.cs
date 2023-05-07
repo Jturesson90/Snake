@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Scripts
 {
-    public class GameController : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
         [SerializeField] private GameData gameData;
 
