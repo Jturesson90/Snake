@@ -14,42 +14,42 @@ namespace Scripts
         [SerializeField] private SpriteRenderer food;
         private SpriteRenderer _food;
 
-        private GameController _gameController;
+        private GameManager _gameManager;
         private int _height;
         private List<SpriteRenderer> _snake;
         private int _width;
 
         private void Awake()
         {
-            _gameController = FindObjectOfType<GameController>();
+            _gameManager = FindObjectOfType<GameManager>();
         }
 
         private void Start()
         {
-            if (_gameController.SnakeData != null) Setup(_gameController.SnakeData);
+            if (_gameManager.SnakeData != null) Setup(_gameManager.SnakeData);
         }
 
         private void FixedUpdate()
         {
-            if (_gameController == null) return;
-            UpdateSnake(_gameController.SnakeData.Snake);
-            UpdateFood(_gameController.SnakeData.Food);
+            if (_gameManager == null) return;
+            UpdateSnake(_gameManager.SnakeData.Snake);
+            UpdateFood(_gameManager.SnakeData.Food);
         }
 
         private void OnEnable()
         {
-            GameController.GameSetupComplete += GameControllerOnGameSetupComplete;
+            GameManager.GameSetupComplete += GameControllerOnGameSetupComplete;
         }
 
         private void OnDisable()
         {
-            GameController.GameSetupComplete -= GameControllerOnGameSetupComplete;
+            GameManager.GameSetupComplete -= GameControllerOnGameSetupComplete;
         }
 
         private void GameControllerOnGameSetupComplete(object sender, EventArgs e)
         {
-            _gameController = sender as GameController;
-            if (_gameController != null) Setup(_gameController.SnakeData);
+            _gameManager = sender as GameManager;
+            if (_gameManager != null) Setup(_gameManager.SnakeData);
         }
 
         private void UpdateFood(Food foodData)
