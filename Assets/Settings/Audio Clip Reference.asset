@@ -14,9 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <GameOver>k__BackingField:
   - {fileID: 8300000, guid: 8871753906ef49940b054324f6ade98c, type: 3}
-  <UI>k__BackingField: []
   <FoodPickup>k__BackingField:
-  - {fileID: 8300000, guid: 9eb9a59245186aa43b9db6f5f14ae8bf, type: 3}
+  - {fileID: 8300000, guid: 4b602c678b914a447b8416b07661b2e9, type: 3}
   <SnakeChangeDirection>k__BackingField:
   - {fileID: 8300000, guid: 506b206448f5f39448715fc749a67d1c, type: 3}
-  <Countdown>k__BackingField: []
